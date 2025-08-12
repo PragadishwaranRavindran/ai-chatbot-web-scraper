@@ -73,15 +73,19 @@ async def scrape_to_json(base_url: str, output_file: str = "scraped_data.json", 
                 await asyncio.sleep(3)
 
                 try:
-                    close_popup = await page.query_selector(
+                    close = page.locator(
                         "button[class*='popup-close'], .close, .close-popup, .login-close"
-                    )
-                    if close_popup:
-                        await close_popup.click()
-                        await asyncio.sleep(1)
-                        st.write("🔒 Popup closed")
-                except Exception as e:
-                    st.warning(f"Popup close failed: {e}")
+                    ).first
+                    await close.wait_for(state="visible", timeout=2000)
+                    await close.click()
+                    await asyncio.sleep(0.5)
+                    st.info("🔒 Popup closed")
+                except Exception:
+                    # Fallback: try ESC to dismiss
+                    try:
+                        await page.keyboard.press("Escape")
+                    except Exception:
+                        pass
 
                 await asyncio.sleep(3)
 
