@@ -33,8 +33,11 @@ if st.button("🚀 Start Scraping"):
 
         with st.spinner("Clearing previous vectors from Pinecone..."):
             try:
-                pineconeDataLoad.clear_pinecone_index()
-                st.success("✅ Cleared existing vectors from Pinecone index")
+                cleared = pineconeDataLoad.clear_pinecone_index()
+                if cleared:
+                    st.success("✅ Cleared existing vectors from Pinecone index")
+                else:
+                    st.info("ℹ️ Namespace did not exist. Proceeding to upload new data.")
             except Exception as e:
                 st.error(f"Failed to clear Pinecone index: {e}")
                 st.stop()

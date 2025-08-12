@@ -23,11 +23,24 @@ index = pc.Index(pinecone_index_name)
 openai_client = OpenAI(api_key=openai_api_key)
 
 
-def clear_pinecone_index():
-    """Remove all vectors from the configured Pinecone index."""
-    # No namespace specified -> default namespace
-    index.delete(delete_all=True)
-    return True
+def clear_pinecone_index(namespace: str | None = None) -> bool:
+    """Remove all vectors from the configured Pinecone index.
+
+    If the namespace does not exist, treat as a no-op and return False.
+    Namespace may be provided directly or via env var PINECONE_NAMESPACE.
+    """
+    ns = namespace if namespace is not None else (os.getenv("PINECONE_NAMESPACE", "").strip() or None)
+    try:
+        if ns:
+            index.delete(delete_all=True, namespace=ns)
+        else:
+            index.delete(delete_all=True)
+        return True
+    except Exception as e:
+        # Pinecone returns 404 Namespace not found if the namespace doesn't exist yet
+        if "Namespace not found" in str(e) or "404" in str(e):
+            return False
+        raise
 
 
 def clean_text(obj):
