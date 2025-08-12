@@ -1,3 +1,28 @@
+.env
+.env.*
+.streamlit/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# OS
+.DS_Store
+
+# Virtual envs
+.venv/
+venv/
+
+# Generated data/artifacts
+scraped_data.json
+cleaned_file.json
+
+# Editors/IDEs
+.idea/
+.vscode/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
