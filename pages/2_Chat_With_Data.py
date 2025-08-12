@@ -1,9 +1,11 @@
 import streamlit as st
 from chat_module import embed_query, search_pinecone, generate_gpt_reply, OpenAIError
+from config import load_config
  
 # ---- Streamlit Page Config ----
-st.set_page_config(page_title="Raj Exim AI Chatbot", layout="centered")
-st.title("Raj Exim AI Chatbot")
+cfg = load_config()
+st.set_page_config(page_title=cfg.get("app_title", "AI Chatbot"), layout="centered")
+st.title(cfg.get("app_title", "AI Chatbot"))
  
 # ---- Custom CSS for Fixed Input ----
 st.markdown("""
