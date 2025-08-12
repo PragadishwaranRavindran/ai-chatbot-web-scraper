@@ -1,14 +1,13 @@
 import os
 import dotenv
-import streamlit as st
 from pinecone import Pinecone
 from openai import OpenAI, OpenAIError
  
 # ---- Load environment variables ----
 dotenv.load_dotenv()
-openai_api_key = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
-pinecone_api_key = st.secrets.get("PINECONE_API_KEY", os.getenv("PINECONE_API_KEY"))
-pinecone_index_name = st.secrets.get("PINECONE_INDEX_NAME", os.getenv("PINECONE_INDEX_NAME"))
+openai_api_key = os.getenv("OPENAI_API_KEY")
+pinecone_api_key = os.getenv("PINECONE_API_KEY")
+pinecone_index_name = os.getenv("PINECONE_INDEX_NAME")
  
 # ---- Initialize clients ----
 openai_client = OpenAI(api_key=openai_api_key)

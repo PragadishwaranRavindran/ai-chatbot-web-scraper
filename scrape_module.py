@@ -1,8 +1,6 @@
 import asyncio
 import json
 import os
-import subprocess
-import sys
 from urllib.parse import urlparse, urljoin
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
@@ -17,11 +15,6 @@ def call_pinecone(fileName):
 
 
 async def scrape_to_json(base_url: str, output_file: str = "scraped_data.json", max_pages: int = 100):
-    # Ensure Playwright browsers are installed in ephemeral/cloud environments
-    try:
-        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    except Exception:
-        pass
     visited = set()
     to_visit = {base_url}
     results = {}
@@ -30,21 +23,11 @@ async def scrape_to_json(base_url: str, output_file: str = "scraped_data.json", 
     base_domain = parsed_base.netloc
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=True,
-            args=[
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-gpu",
-                "--disable-software-rasterizer",
-                "--single-process",
-            ],
-        )
+        browser = await p.chromium.launch(headless=False, args=["--start-maximized"])
         context = await browser.new_context(
             viewport={"width": 1280, "height": 800},
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0",
-            java_script_enabled=True,
+            java_script_enabled=True
         )
 
         page = await context.new_page()

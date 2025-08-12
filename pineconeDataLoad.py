@@ -3,7 +3,6 @@ import json
 import time
 from tqdm import tqdm
 import dotenv
-import streamlit as st
 from openai import OpenAI, OpenAIError, RateLimitError
 from pinecone import Pinecone
 import json
@@ -12,9 +11,9 @@ import textwrap
 
 # ---- Load environment variables ----
 dotenv.load_dotenv()
-openai_api_key = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
-pinecone_api_key = st.secrets.get("PINECONE_API_KEY", os.getenv("PINECONE_API_KEY"))
-pinecone_index_name = st.secrets.get("PINECONE_INDEX_NAME", os.getenv("PINECONE_INDEX_NAME"))
+openai_api_key = os.getenv("OPENAI_API_KEY")
+pinecone_api_key = os.getenv("PINECONE_API_KEY")
+pinecone_index_name = os.getenv("PINECONE_INDEX_NAME")
 
 # ---- Initialize Pinecone ----
 pc = Pinecone(api_key=pinecone_api_key)
