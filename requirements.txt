@@ -3,3 +3,5 @@ beautifulsoup4
 playwright
 openai
 python-dotenv
+tqdm
+pinecone
