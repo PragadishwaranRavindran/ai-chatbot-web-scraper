@@ -50,7 +50,7 @@ def on_send(user_input):
     st.session_state.chat_history.append({"role": "user", "content": user_input})
  
     # Process bot reply
-    with st.spinner("Processing..."):
+    with st.spinner("Generating response..."):
         try:
             query_embedding = embed_query(user_input)
             results = search_pinecone(query_embedding, top_k=5)
