@@ -4,4 +4,4 @@ playwright
 openai
 python-dotenv
 tqdm
-pinecone-client
+pinecone
