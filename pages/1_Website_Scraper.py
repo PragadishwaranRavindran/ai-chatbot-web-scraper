@@ -31,6 +31,14 @@ if st.button("🚀 Start Scraping"):
         if os.path.exists(output_path):
             os.remove(output_path)
 
+        with st.spinner("Clearing previous vectors from Pinecone..."):
+            try:
+                pineconeDataLoad.clear_pinecone_index()
+                st.success("✅ Cleared existing vectors from Pinecone index")
+            except Exception as e:
+                st.error(f"Failed to clear Pinecone index: {e}")
+                st.stop()
+
         with st.spinner("Scraping..."):
             asyncio.run(scrape_to_json(url.strip(), output_path, max_pages))
         st.success("✅ Done scraping!")

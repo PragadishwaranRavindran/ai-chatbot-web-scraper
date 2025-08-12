@@ -23,6 +23,13 @@ index = pc.Index(pinecone_index_name)
 openai_client = OpenAI(api_key=openai_api_key)
 
 
+def clear_pinecone_index():
+    """Remove all vectors from the configured Pinecone index."""
+    # No namespace specified -> default namespace
+    index.delete(delete_all=True)
+    return True
+
+
 def clean_text(obj):
     if isinstance(obj, dict):
         return {k: clean_text(v) for k, v in obj.items()}
